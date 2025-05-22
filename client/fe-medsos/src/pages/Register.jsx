@@ -13,8 +13,18 @@ import {
 import CssBaseline from '@mui/material/CssBaseline'
 import { Link } from "react-router-dom"
 import { CardRegister, SignInContainer } from "../utils/style"
+import { useForm } from "react-hook-form"
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Register = () => {
+    const {register, handleSubmit} = useForm()
+    const onSubmit = (value) => console.log(value)
+    const major = useSelector(root => root?.major)
+    const dispatch = useDispatch()
+
+    useEffect(() => dispatch(fetchMajor()), [])
+
     return (<>
         <CssBaseline enableColorScheme />
         <SignInContainer direction="column" justifyContent="space-between">
@@ -28,7 +38,7 @@ const Register = () => {
                 </Typography>
                 <Box
                     component="form"
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                     noValidate
                     sx={{
                         display: 'flex',
@@ -54,6 +64,7 @@ const Register = () => {
                                     fullWidth
                                     variant="outlined"
                                 // color={emailError ? 'error' : 'primary'}
+                                    {...register('username')}
                                 />
                             </FormControl>
                         </Grid>
@@ -72,6 +83,7 @@ const Register = () => {
                                     required
                                     fullWidth
                                     variant="outlined"
+                                    {...register('password')}
                                 // color={passwordError ? 'error' : 'primary'}
                                 />
                             </FormControl>
@@ -91,6 +103,7 @@ const Register = () => {
                                     required
                                     fullWidth
                                     variant="outlined"
+                                    {...register('email')}
                                 // color={emailError ? 'error' : 'primary'}
                                 />
                             </FormControl>
@@ -111,6 +124,7 @@ const Register = () => {
                                     fullWidth
                                     variant="outlined"
                                 // color={emailError ? 'error' : 'primary'}
+                                {...register('firstName')}
                                 />
                             </FormControl>
                         </Grid>
@@ -129,6 +143,7 @@ const Register = () => {
                                     required
                                     fullWidth
                                     variant="outlined"
+                                    {...register('lastName')}
                                 // color={emailError ? 'error' : 'primary'}
                                 />
                             </FormControl>
@@ -158,6 +173,13 @@ const Register = () => {
                                     id="demo-simple-select"
                                     // value={age}
                                     label="Major"
+
+                                    {
+                                        ...major?.data?.map((m, i) => <MenuItem
+                                            key={i}
+                                            value={"PPLG"}>{m?.name}
+                                        </MenuItem>)
+                                    }
                                 // onChange={handleChange}
                                 >
                                     <MenuItem value={"PPLG"}>PPLG</MenuItem>
