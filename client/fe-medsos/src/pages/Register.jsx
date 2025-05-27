@@ -17,14 +17,16 @@ import { useForm } from "react-hook-form"
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+
 const Register = () => {
     const {register, handleSubmit} = useForm()
-    const onSubmit = (value) => console.log(value)
-    const major = useSelector(root => root?.major)
     const dispatch = useDispatch()
-
+    const major = useSelector(root => root?.major)
+    
     useEffect(() => dispatch(fetchMajor()), [])
 
+    const onSubmit = (value) => dispatch(authRegister(value))
+    
     return (<>
         <CssBaseline enableColorScheme />
         <SignInContainer direction="column" justifyContent="space-between">

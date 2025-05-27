@@ -6,7 +6,7 @@ const init = {
     err: null
 }
 
-const authReducer = (state = init, action) => {
+const authMajor = (state = init, action) => {
     switch (action?.type) {
         case 'MAJOR_INIT':
             return init
@@ -25,4 +25,4 @@ const authReducer = (state = init, action) => {
     }
 }
 
-export default authReducer
+export default authMajor
