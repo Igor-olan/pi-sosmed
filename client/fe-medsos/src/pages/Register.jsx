@@ -1,4 +1,5 @@
 import {
+    Alert,
     Box,
     Button,
     FormControl,
@@ -16,12 +17,15 @@ import { CardRegister, SignInContainer } from "../utils/style"
 import { useForm } from "react-hook-form"
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchMajor } from '../redux/action/majorAction'
+import { authRegister } from '../redux/action/authAction'
 
 
 const Register = () => {
     const {register, handleSubmit} = useForm()
-    const dispatch = useDispatch()
+    const { auth } = useSelector(root => root?.auth)
     const major = useSelector(root => root?.major)
+    const dispatch = useDispatch()
     
     useEffect(() => dispatch(fetchMajor()), [])
 
@@ -38,9 +42,14 @@ const Register = () => {
                 >
                     Sign Up
                 </Typography>
+                {
+                    auth?.message !== "" && <Alert severity="success">
+                        {auth?.message}
+                    </Alert>
+                }
                 <Box
                     component="form"
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                     noValidate
                     sx={{
                         display: 'flex',
@@ -224,6 +233,20 @@ const Register = () => {
                             Have account?
                         </Link>
                     </center>
+                    {
+                    !!auth?.err &&
+                    !!auth?.err.errors &&
+                    !!auth?.err.errors?.map((e, i) => (
+                        <Typography
+                        key={i}
+                        variant="body2"
+                        color="error"
+                        sx={{textAlign: 'center'}}
+                        >
+                            {e?.path} {e?.msg}
+                        </Typography>
+                    ))
+                    }
                 </Box>
             </CardRegister>
         </SignInContainer>

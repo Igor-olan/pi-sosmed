@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const APISERVICE = () => axios.create({
+export const APISERVICE = () => axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 10000,
 })
@@ -8,7 +8,7 @@ const APISERVICE = () => axios.create({
 export const config = (token) => {
     return {
         headers: {
-            Accept: 'application/json',
+            Accept: 'Application/json',
             Authorization: `Bearer ${token}`,
         }
     }

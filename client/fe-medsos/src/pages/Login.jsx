@@ -2,8 +2,17 @@ import { Box, Button, FormControl, FormLabel, TextField, Typography } from '@mui
 import CssBaseline from '@mui/material/CssBaseline'
 import { Link } from "react-router-dom"
 import { Card, SignInContainer } from "../utils/style"
+import { useForm } from 'react-hook-form'
+import { authLogin } from '../redux/action/authAction'
 
 const Login = () => {
+    const {login, handleSubmit} = useForm()
+    const { auth } = useSelector(root => root?.auth)
+    const dispatch = useDispatch()
+
+    const onSubmit = (value) => dispatch(authLogin(value))
+    
+
     return (
         <>
             <CssBaseline enableColorScheme />
@@ -16,9 +25,14 @@ const Login = () => {
                     >
                         Sign in
                     </Typography>
+                    {
+                        auth?.message !== "" && <Alert severity="success">
+                            {auth?.message}
+                        </Alert>
+                    }
                     <Box
                         component="form"
-                        // onSubmit={handleSubmit}
+                        onSubmit={handleSubmit(onSubmit)}
                         noValidate
                         sx={{
                             display: 'flex',
@@ -41,6 +55,8 @@ const Login = () => {
                                 required
                                 fullWidth
                                 variant="outlined"
+                                {...register('username')}
+
                             // color={emailError ? 'error' : 'primary'}
                             />
                         </FormControl>
@@ -58,6 +74,8 @@ const Login = () => {
                                 required
                                 fullWidth
                                 variant="outlined"
+                                {...register('password')}
+
                             // color={passwordError ? 'error' : 'primary'}
                             />
                         </FormControl>
